@@ -13,6 +13,17 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
     
+    # CRITICAL: OpenAI/Claude API Key for AI Triage
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")  # For Claude AI
+    AI_MODEL_PROVIDER: str = os.getenv("AI_MODEL_PROVIDER", "anthropic")  # "openai" or "anthropic"
+    
+    # AI Model Configuration
+    OPENAI_MODEL: str = "gpt-4-turbo-preview"
+    ANTHROPIC_MODEL: str = "claude-sonnet-4-20250514"
+    AI_MAX_TOKENS: int = 2000
+    AI_TEMPERATURE: float = 0.3  # Lower for more consistent medical analysis
+    
     # Firebase Configuration
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "firebase-credentials.json")
     FIREBASE_API_KEY: str = "AIzaSyBfpFP2etJ2tDw5TmV-sT0A5MxWsOcGgNY"
@@ -23,9 +34,8 @@ class Settings(BaseSettings):
     FIREBASE_APP_ID: str = "1:962145261534:web:283c70b80314d88c4e2f4f"
     FIREBASE_MEASUREMENT_ID: str = "G-H1ZKD7W436"
     
-    # AI Model Settings
-    AI_MODEL_PATH: str = "models/triage_model.pkl"
-    NLP_MODEL: str = "en_core_web_sm"
+    # Fallback AI Settings (if API keys not available)
+    USE_FALLBACK_AI: bool = os.getenv("USE_FALLBACK_AI", "false").lower() == "true"
     
     # Severity Thresholds
     NORMAL_MAX: int = 39
