@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ai-triage-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt && python -m spacy download en_core_web_sm
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: AI_MODEL_PROVIDER
+        value: anthropic
+      - key: SECRET_KEY
+        sync: false
+      - key: USE_FALLBACK_AI
+        value: true
+      - key: FIREBASE_PROJECT_ID
+        value: ai-health-and-triage-app
+      - key: FIREBASE_CREDENTIALS
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
